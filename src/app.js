@@ -2,39 +2,36 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 require("./db/conn");
-const Student = require("./models/students");
+// const Student = require("./models/students");
+// const {Student} = require('./models')
 
 
 const app = express();
 const port = 3002;
-app.use(function(req, res, next) {
+// app.use(function(req, res, next) {
 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    )
-    res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE,OPTIONS");
-    next();
-    })
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//     )
+//     res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE,OPTIONS");
+//     next();
+//     })
 app.use(express.json());
 
-app.post("/add-student", async (req,res) =>{
-    try{
-       const student = await Student.create({
-            name:req.body.name,
-            age:req.body.age,
-        email:req.body.email,
-    subject:req.body.subject})
-    await Student.save();
+//get , post, put, delete, patch
 
-    // res.status(200).json({'success' : true, 'result': student})
-    res.status(400).send(student)
-    // res.send(200, student);
+app.post("/simple/express", async (req,res) =>{
+   try{
+    let first = req.body.first;
+    let second = req.body.second;
+    let sum = parseInt(first) + parseInt(second);
+    res.status(200).send({sum})
+   }catch(err){
 
-    }catch(err){
-        res.status(400).send("error occured", err);
-    }
+    res.status(400).send(err)
+   }
 })
 
 

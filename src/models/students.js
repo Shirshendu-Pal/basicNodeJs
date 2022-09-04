@@ -1,11 +1,21 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const studentSchema = new mongoose.Schema({
-    name:String,
-    age:Number,
-    email:String,
-    subject:String,
+    name:{
+        type:String,
+        required:true,
+    },
+    age:{
+        type:Number,
+        required:true,
+    },
+    email:{type:String,
+            required:true,
+        unique:true},
+
+    subject:{type:String,
+    required: true,}
 })
 
-const Student = new mongoose.model('Student',studentSchema);
-module.exports = Student; 
+module.exports = mongoose.model("Student", studentSchema);
