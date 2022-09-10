@@ -6,15 +6,21 @@ const studentSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    age:{
-        type:Number,
+    gender:{
+        type:String,
         required:true,
     },
     email:{type:String,
             required:true,
         unique:true},
 
-    subject:{type:String,
+    company:{
+        type:String,
+        required:true,
+    },
+
+    subject:{
+        type:String,
     required: true,}
 })
 
