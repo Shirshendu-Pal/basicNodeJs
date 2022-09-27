@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 require("./db/conn");
 //  const Student = require("./models/students");
-const {Student, Address} = require('./models')
+const {Student, Admin} = require('./models')
 
 
 const app = express();
@@ -212,7 +212,78 @@ app.post("/getStudentById", async(req,res) =>{
   }
 })
 
+// app.post("/admin-register",async (req, res) =>{
+//   try{
+//   const admin = await Admin.create({
+//     email: req.body.email,
+//     password: req.body.password
+//   }) 
+//   await admin.save();
+//   res.status(200).send({success: true, admin})
+// }catch(error){
+//   res.status(400).send(error)
+// }
+// })
 
+// app.post("/adminLogin", async(req,res) =>{
+//   try{
+//   const admin = await Admin.findOne({email: req.body.email});
+//   if(!admin) return res.status(400).send({success: false},{message:"no admin found"});
+
+//     if(req.body.password === admin.password){
+//       const token = await admin.generateAuthToken()
+
+//       res.status(200).send({success: true});
+
+//     }else{
+//       res.status(400).send({success: false,message:"invalid credentials"});
+//     }
+//   }catch(error){
+//     res.status(400).send(error)
+//   }
+  
+// })
+
+
+
+app.post("/register-admin", async (req, res) =>{
+  try{
+
+  const admin = await Admin.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  })
+  await admin.save()
+  res.status(200).send({success: true, admin})
+  } catch(error){
+    res.status(400).send(error)
+  }
+
+})
+
+app.post("/admin-login", async (req, res) => {
+
+  try {
+
+  const admin = await Admin.findOne({email: req.body.email})
+
+  if(!admin) return res.status(400).send({success: false, message:"no admin found with this email"});
+
+  if(admin.password===req.body.password){
+    const token = admin.generateAuthToken()
+    res.status(200).send({success: true, admin})
+  }else{
+    return res.status(400).send({success: false, message:"invalid credentials"});
+  }
+
+} catch(error){
+  res.status(400).send(error);
+}
+
+
+
+})
 
 
 app.listen(port, ()=> {
